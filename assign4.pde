@@ -45,7 +45,11 @@ void draw() {
 
   case GAME_START:
     /*---------Print Text-------------*/
-    text("press enter", 320, 240); // replace this with printText
+    fill(95, 194, 226);
+    textSize(60);
+    text("GALIXIAN",width*2/7,210);
+    textSize(20);
+    text("Press ENTER to Start", 220, 270); // replace this with printText
     /*--------------------------------*/
     break;
 
@@ -56,10 +60,10 @@ void draw() {
     drawScore();
     drawLife();
     ship.display(); //Draw Ship on the Screen
-    drawAlien();
+    drawAlien(50,50);
     drawBullet();
     drawLaser();
-
+   // alienShoot(50);
     /*---------Call functions---------------*/
 
 
@@ -71,13 +75,21 @@ void draw() {
 
   case GAME_PAUSE:
     /*---------Print Text-------------*/
-
+    fill(95, 194, 226);
+    textSize(40);
+    text("PAUSE",width/2,210);
+    textSize(20);
+    text("Press ENTER to Resume", width/2, 270);
     /*--------------------------------*/
     break;
 
   case GAME_WIN:
     /*---------Print Text-------------*/
-
+    fill(95, 194, 226);
+    textSize(40);
+    text("WINNER",245,210);
+    textSize(20);
+    text("SCORE:",245, 270);
     /*--------------------------------*/
     winAnimate();
     break;
@@ -85,7 +97,11 @@ void draw() {
   case GAME_LOSE:
     loseAnimate();
     /*---------Print Text-------------*/
-
+    fill(95, 194, 226);
+    textSize(40);
+    text("BOOOM",245,210);
+    textSize(20);
+    text("You are dead!!!", 245, 270);
     /*--------------------------------*/
     break;
   }
@@ -114,14 +130,26 @@ void keyPressed() {
 }
 
 /*---------Make Alien Function-------------*/
-void alienMaker() {
-  aList[0]= new Alien(50, 50);
-}
+void alienMaker(int ox,int oy,int xSpacing,int ySpacing,int num,int numInRow) {
+    
+   
+   for(int i=0;i<num;i++){
+     int row = i/numInRow;
+     int col = i%numInRow;
+     aList[i]= new Alien(ox+(xSpacing*col), oy+(ySpacing*row));
+     }
+  
+ }
+ 
+
 
 void drawLife() {
   fill(230, 74, 96);
   text("LIFE:", 36, 455);
   /*---------Draw Ship Life---------*/
+  for(int i=0; i<3 ;i++){
+  ellipse(78+25*i,459,15,15);
+  }
 }
 
 void drawBullet() {
@@ -150,14 +178,15 @@ void drawLaser() {
   }
 }
 
-void drawAlien() {
+void drawAlien(float x, float y) {
   for (int i=0; i<aList.length-1; i++) {
     Alien alien = aList[i];
     if (alien!=null && !alien.die) { // Check Array isn't empty and alien still exist
       alien.move();    //Move Alien
       alien.display(); //Draw Alien
       /*---------Call Check Line Hit---------*/
-
+      
+      
       /*--------------------------------------*/
     }
   }
@@ -197,14 +226,24 @@ void checkAlienDead() {
     for (int j=0; j<aList.length-1; j++) {
       Alien alien = aList[j];
       if (bullet != null && alien != null && !bullet.gone && !alien.die // Check Array isn't empty and bullet / alien still exist
-      /*------------Hit detect-------------*/        ) {
+      /*------------Hit detect-------------*/
+        && bList[i].bX<= (aList[j].aX +aList[j].aSize)
+        && bList[i].bY<=(aList[j].aY +aList[j].aSize)
+        && bList[i].bX>=(aList[j].aX -aList[j].aSize)
+        && bList[i].bY>=(aList[j].aY -aList[j].aSize)     ) {
+        
         /*-------do something------*/
+        point+=10;
+        removeBullet(bList[i]);
+        removeAlien(aList[j]);
+        
       }
     }
   }
 }
 
 /*---------Alien Drop Laser-----------------*/
+
 
 
 /*---------Check Laser Hit Ship-------------*/
@@ -297,7 +336,7 @@ void reset() {
   
 
   /*-----------Call Make Alien Function--------*/
-  alienMaker();
+  alienMaker(50,50,40,50,53,12);
 
   ship.posX = width/2;
   ship.posY = 460;
@@ -317,7 +356,16 @@ void statusCtrl() {
       break;
 
       /*-----------add things here--------*/
-
+    case GAME_PLAYING:
+      status = GAME_PAUSE ;
+      break;
+      
+    case GAME_PAUSE:
+      status = GAME_PLAYING;
+      break;
+    case GAME_WIN:
+      status = GAME_WIN;
+      winAnimate();
     }
   }
 }
@@ -343,4 +391,3 @@ void cheatKeys() {
     }
   }
 }
-
