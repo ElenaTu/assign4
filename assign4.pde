@@ -134,8 +134,8 @@ void alienMaker(int ox,int oy,int xSpacing,int ySpacing,int num,int numInRow) {
     
    
    for(int i=0;i<num;i++){
-     int row = i/numInRow;
-     int col = i%numInRow;
+     int row = int(i/numInRow);
+     int col = int(i%numInRow);
      aList[i]= new Alien(ox+(xSpacing*col), oy+(ySpacing*row));
      }
   
