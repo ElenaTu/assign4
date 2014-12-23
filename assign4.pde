@@ -45,15 +45,13 @@ void draw() {
 
   case GAME_START:
     /*---------Print Text-------------*/
-    fill(95, 194, 226);
-    textSize(60);
-    text("GALIXIAN",width*2/7,210);
-    textSize(20);
-    text("Press ENTER to Start", 220, 270); // replace this with printText
+    printText();
+     // replace this with printText
     /*--------------------------------*/
     break;
 
   case GAME_PLAYING:
+    printText();
     background(50, 50, 50);
 
     drawHorizon();
@@ -75,21 +73,13 @@ void draw() {
 
   case GAME_PAUSE:
     /*---------Print Text-------------*/
-    fill(95, 194, 226);
-    textSize(40);
-    text("PAUSE",width/2,210);
-    textSize(20);
-    text("Press ENTER to Resume", width/2, 270);
+    printText();
     /*--------------------------------*/
     break;
 
   case GAME_WIN:
     /*---------Print Text-------------*/
-    fill(95, 194, 226);
-    textSize(40);
-    text("WINNER",245,210);
-    textSize(20);
-    text("SCORE:",245, 270);
+    printText();
     /*--------------------------------*/
     winAnimate();
     break;
@@ -97,11 +87,7 @@ void draw() {
   case GAME_LOSE:
     loseAnimate();
     /*---------Print Text-------------*/
-    fill(95, 194, 226);
-    textSize(40);
-    text("BOOOM",245,210);
-    textSize(20);
-    text("You are dead!!!", 245, 270);
+    printText();
     /*--------------------------------*/
     break;
   }
@@ -296,6 +282,33 @@ void loseAnimate() {
 
 
 /*---------Print Text Function-------------*/
+void printText(){
+  fill(95,194,226);
+  if (status == GAME_START){    
+    textSize(60);
+    text("GALIXIAN",width*2/7,210);
+    textSize(20);
+    text("Press ENTER to Start", 220, 270);
+  }
+  if (status == GAME_PAUSE){    
+    textSize(40);
+    text("PAUSE",width/2,210);
+    textSize(20);
+    text("Press ENTER to Resume", width/2, 270);
+  }
+  if (status == GAME_WIN){    
+    textSize(40);
+    text("WINNER",245,210);
+    textSize(20);
+    text("SCORE:",245, 270);
+  }
+  if (status == GAME_LOSE){    
+    textSize(40);
+    text("BOOOM",245,210);
+    textSize(20);
+    text("You are dead!!!", 245, 270);
+  }
+}
 
 
 void removeBullet(Bullet obj) {
