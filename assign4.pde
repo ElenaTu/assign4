@@ -130,13 +130,13 @@ void keyPressed() {
 }
 
 /*---------Make Alien Function-------------*/
-void alienMaker(int ox,int oy,int xSpacing,int ySpacing,int num,int numInRow) {
+void alienMaker(int num,int numInRow) {
     
    
    for(int i=0;i<num;i++){
      int row = int(i/numInRow);
      int col = int(i%numInRow);
-     aList[i]= new Alien(ox+(xSpacing*col), oy+(ySpacing*row));
+     aList[i]= new Alien(50+(40*col), 50+(50*row));
      }
   
  }
@@ -336,7 +336,7 @@ void reset() {
   
 
   /*-----------Call Make Alien Function--------*/
-  alienMaker(50,50,40,50,53,12);
+  alienMaker(53,12);
 
   ship.posX = width/2;
   ship.posY = 460;
